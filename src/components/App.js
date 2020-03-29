@@ -1,7 +1,10 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import { loadNewGame } from '../store/actions'
 import PlayerCard from './PlayerCard'
 import BlankCard from './BlankCard'
+import CardDeck from 'react-bootstrap/CardDeck'
+import Button from 'react-bootstrap/Button'
 import isEmpty from 'lodash/isEmpty'
 import './app-styles.scss'
 
@@ -10,6 +13,8 @@ const App = () => {
   const shipsError = useSelector((state) => state.ships.shipsError)
   const player1Card = useSelector((state) => state.players.player1Card)
   const player2Card = useSelector((state) => state.players.player2Card)
+  const winningCard = useSelector((state) => state.players.winner)
+  const dispatch = useDispatch()
 
   if (shipsLoading) {
     return (
@@ -33,10 +38,27 @@ const App = () => {
 
   return (
     <div className="app">
-      <div className="container">
-        {!isEmpty(player1Card) ? <PlayerCard starship={player1Card} player={1} /> : <BlankCard />}
-        {!isEmpty(player2Card) ? <PlayerCard starship={player2Card} player={2} /> : <BlankCard />}
+      <div className="card-container">
+        <CardDeck>
+          {!isEmpty(player1Card) ? (
+            <PlayerCard starship={player1Card} player={1} winner={winningCard} />
+          ) : (
+            <BlankCard />
+          )}
+          {!isEmpty(player2Card) ? (
+            <PlayerCard starship={player2Card} player={2} winner={winningCard} />
+          ) : (
+            <BlankCard />
+          )}
+        </CardDeck>
       </div>
+      {winningCard !== undefined && (
+        <div>
+          <Button variant="outline-secondary" block onClick={() => dispatch(loadNewGame())}>
+            Play Again
+          </Button>
+        </div>
+      )}
     </div>
   )
 }

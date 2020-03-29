@@ -44,3 +44,30 @@ export const getNewPlayerCard = (player) => {
     dispatch({ type: type, payload: getPlayerCard })
   }
 }
+
+export const compareCards = (player, selectedItem) => {
+  return (dispatch, getState) => {
+    const player1CardItem = getState().players.player1Card[selectedItem]
+    const player2CardItem = getState().players.player2Card[selectedItem]
+
+    if (player1CardItem > player2CardItem) {
+      dispatch({ type: actionTypes.GET_WINNER, payload: 1 })
+    } else if (player2CardItem > player1CardItem) {
+      dispatch({ type: actionTypes.GET_WINNER, payload: 2 })
+    }
+  }
+}
+export const loadNewGame = () => {
+  return (dispatch, getState) => {
+    const winningPlayer = getState().players.winner
+    const ships = getState().ships.ships
+
+    if (winningPlayer === 1) {
+      const getPlayerCard = getRandomShip(ships)
+      dispatch({ type: actionTypes.PLAYER1_WINS, payload: getPlayerCard })
+    } else if (winningPlayer === 2) {
+      const getPlayerCard = getRandomShip(ships)
+      dispatch({ type: actionTypes.PLAYER2_WINS, payload: getPlayerCard })
+    }
+  }
+}
