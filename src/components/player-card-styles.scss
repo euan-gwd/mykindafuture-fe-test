@@ -1,9 +1,17 @@
 .player-card {
-  width: 18rem;
+  min-width: 20rem;
+  min-height: 23rem;
 
   .categories {
     display: flex;
     justify-content: space-between;
     align-items: center;
+  }
+
+  .card-back {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    height: 100%;
   }
 }

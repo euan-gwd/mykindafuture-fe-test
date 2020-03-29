@@ -4,31 +4,17 @@ import ListGroup from 'react-bootstrap/ListGroup'
 import './player-card-styles.scss'
 
 const PlayerCard = ({ starship }) => {
-  console.log('Card -> starship', starship)
-
   return (
     <Card className="player-card">
       <Card.Header>
         <Card.Title>{starship.name}</Card.Title>
-        <Card.Subtitle className="mb-2 text-muted">{starship.starship_class}</Card.Subtitle>
+        <Card.Subtitle className="mb-1 text-muted">{starship.model}</Card.Subtitle>
       </Card.Header>
       <ListGroup variant="flush">
         <ListGroup.Item>
           <div className="categories">
-            <div>{`Model: `}</div>
-            <div>{starship.model}</div>
-          </div>
-        </ListGroup.Item>
-        <ListGroup.Item>
-          <div className="categories">
-            <div>{`Manufacturer: `}</div>
-            <div>{starship.manufacturer}</div>
-          </div>
-        </ListGroup.Item>
-        <ListGroup.Item>
-          <div className="categories">
-            <div>{`Crew: `}</div>
-            <div>{starship.crew}</div>
+            <div>{`Class: `}</div>
+            <div>{starship.starship_class}</div>
           </div>
         </ListGroup.Item>
         <ListGroup.Item action>
@@ -41,6 +27,12 @@ const PlayerCard = ({ starship }) => {
           <div className="categories">
             <div>{`Cost in credits: `}</div>
             <div>{starship.cost_in_credits}</div>
+          </div>
+        </ListGroup.Item>
+        <ListGroup.Item action>
+          <div className="categories">
+            <div>{`Crew: `}</div>
+            <div>{starship.crew}</div>
           </div>
         </ListGroup.Item>
         <ListGroup.Item action>
