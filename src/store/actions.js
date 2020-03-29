@@ -1,5 +1,5 @@
 import * as actionTypes from './constants'
-import mockData from '../mockData.json'
+// import mockData from '../mockData.json'
 
 const getShips = () => {
   const apiReq1 = fetch('/starships/')
@@ -27,8 +27,8 @@ export const loadShips = () => {
   return async (dispatch) => {
     dispatch({ type: actionTypes.LOAD_SHIPS_BEGIN })
     try {
-      // const ships = await getShips()
-      const ships = mockData.ships
+      const ships = await getShips()
+      // const ships = mockData.ships
       const getPlayer1Card = getRandomShip(ships)
       dispatch({ type: actionTypes.LOAD_SHIPS_SUCCESS, payload: ships })
       dispatch({ type: actionTypes.LOAD_PLAYER1_CARD, payload: getPlayer1Card })
