@@ -2,13 +2,14 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import PlayerCard from './PlayerCard'
 import BlankCard from './BlankCard'
+import isEmpty from 'lodash/isEmpty'
 import './app-styles.scss'
 
 const App = () => {
   const shipsLoading = useSelector((state) => state.ships.shipsLoading)
   const shipsError = useSelector((state) => state.ships.shipsError)
-  const ships = useSelector((state) => state.ships.ships)
-  const getRandomShip = () => ships[Math.floor(Math.random() * ships.length)]
+  const player1Card = useSelector((state) => state.players.player1Card)
+  const player2Card = useSelector((state) => state.players.player2Card)
 
   if (shipsLoading) {
     return (
@@ -33,9 +34,8 @@ const App = () => {
   return (
     <div className="app">
       <div className="container">
-        <PlayerCard starship={getRandomShip()} />
-        {/* <PlayerCard starship={getRandomShip()} /> */}
-        <BlankCard />
+        {!isEmpty(player1Card) ? <PlayerCard starship={player1Card} player={1} /> : <BlankCard />}
+        {!isEmpty(player2Card) ? <PlayerCard starship={player2Card} player={2} /> : <BlankCard />}
       </div>
     </div>
   )

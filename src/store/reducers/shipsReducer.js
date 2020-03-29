@@ -3,7 +3,9 @@ import * as actionTypes from '../constants'
 const initialState = {
   shipsLoading: false,
   shipsError: null,
-  ships: []
+  ships: [],
+  player1Card: {},
+  player2Card: {}
 }
 
 function reducer(state = initialState, action) {
@@ -26,6 +28,18 @@ function reducer(state = initialState, action) {
         ...state,
         shipsLoading: false,
         shipsError: action.error
+      }
+    case actionTypes.LOAD_PLAYER1_CARD:
+      return {
+        ...state,
+        shipsLoading: false,
+        player1Card: action.payload
+      }
+    case actionTypes.LOAD_PLAYER2_CARD:
+      return {
+        ...state,
+        shipsLoading: false,
+        player1Card: action.payload
       }
     default:
       return state
