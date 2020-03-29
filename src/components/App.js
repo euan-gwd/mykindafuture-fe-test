@@ -1,26 +1,33 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from 'react'
+import { useSelector } from 'react-redux'
+import Container from 'react-bootstrap/Container'
+import CardDeck from 'react-bootstrap/CardDeck'
+import PlayerCard from './PlayerCard'
 
-function App() {
+const App = () => {
+  const shipsLoading = useSelector((state) => state.ships.shipsLoading)
+  const shipsError = useSelector((state) => state.ships.shipsError)
+  const ships = useSelector((state) => state.ships.ships)
+  const getRandomShip = () => ships[Math.floor(Math.random() * ships.length)]
+  // const [player1Card, setPlayer1Card] = useState(ships[Math.floor(Math.random() * ships.length)])
+  // const [player2Card, setPlayer2Card] = useState({})
+
+  if (shipsLoading) {
+    return <div>{`Loading...`}</div>
+  }
+
+  if (shipsError) {
+    return <div>{`Oops something went wrong..., ${shipsError}`}</div>
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <Container fluid>
+      <CardDeck>
+        <PlayerCard starship={getRandomShip()} />
+        {/* <PlayerCard ship={getRandomShip()} /> */}
+      </CardDeck>
+    </Container>
+  )
 }
 
-export default App;
+export default App
