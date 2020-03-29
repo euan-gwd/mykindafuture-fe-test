@@ -47,13 +47,26 @@ export const getNewPlayerCard = (player) => {
 
 export const compareCards = (player, selectedItem) => {
   return (dispatch, getState) => {
-    const player1CardItem = getState().players.player1Card[selectedItem]
-    const player2CardItem = getState().players.player2Card[selectedItem]
+    if (typeof selectedItem === 'string') {
+      const player1CardItem = getState().players.player1Card[selectedItem]
+      const player2CardItem = getState().players.player2Card[selectedItem]
 
-    if (player1CardItem > player2CardItem) {
-      dispatch({ type: actionTypes.GET_WINNER, payload: 1 })
-    } else if (player2CardItem > player1CardItem) {
-      dispatch({ type: actionTypes.GET_WINNER, payload: 2 })
+      if (player1CardItem > player2CardItem) {
+        dispatch({ type: actionTypes.GET_WINNER, payload: 1 })
+      } else if (player2CardItem > player1CardItem) {
+        dispatch({ type: actionTypes.GET_WINNER, payload: 2 })
+      }
+    }
+
+    if (typeof selectedItem === 'number') {
+      const player1CardItem = getState().players.player1Card.films.length
+      const player2CardItem = getState().players.player2Card.films.length
+
+      if (player1CardItem > player2CardItem) {
+        dispatch({ type: actionTypes.GET_WINNER, payload: 1 })
+      } else if (player2CardItem > player1CardItem) {
+        dispatch({ type: actionTypes.GET_WINNER, payload: 2 })
+      }
     }
   }
 }
