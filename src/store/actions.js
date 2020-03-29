@@ -55,6 +55,8 @@ export const compareCards = (player, selectedItem) => {
         dispatch({ type: actionTypes.GET_WINNER, payload: 1 })
       } else if (player2CardItem > player1CardItem) {
         dispatch({ type: actionTypes.GET_WINNER, payload: 2 })
+      } else if (player2CardItem === player1CardItem) {
+        dispatch({ type: actionTypes.GET_WINNER, payload: 'draw' })
       }
     }
 
@@ -66,6 +68,8 @@ export const compareCards = (player, selectedItem) => {
         dispatch({ type: actionTypes.GET_WINNER, payload: 1 })
       } else if (player2CardItem > player1CardItem) {
         dispatch({ type: actionTypes.GET_WINNER, payload: 2 })
+      } else if (player2CardItem === player1CardItem) {
+        dispatch({ type: actionTypes.GET_WINNER, payload: 'draw' })
       }
     }
   }
@@ -81,6 +85,9 @@ export const loadNewGame = () => {
     } else if (winningPlayer === 2) {
       const getPlayerCard = getRandomShip(ships)
       dispatch({ type: actionTypes.PLAYER2_WINS, payload: getPlayerCard })
+    } else if (winningPlayer === 'draw') {
+      const getPlayerCard = getRandomShip(ships)
+      dispatch({ type: actionTypes.PLAYER1_WINS, payload: getPlayerCard })
     }
   }
 }

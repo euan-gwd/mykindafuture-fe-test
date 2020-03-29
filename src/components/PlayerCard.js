@@ -23,6 +23,13 @@ const PlayerCard = ({ starship, player, winner }) => {
           </Alert>
         </Card.Header>
       )}
+      {winner === 'draw' && (
+        <Card.Header>
+          <Alert variant="info">
+            <h1>Draw</h1>
+          </Alert>
+        </Card.Header>
+      )}
       <Card.Header>
         <Card.Title>{starship.name}</Card.Title>
         <Card.Subtitle className="mb-1 text-muted">{starship.model}</Card.Subtitle>
