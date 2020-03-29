@@ -1,4 +1,5 @@
 import * as actionTypes from './constants'
+import mockData from '../mockData.json'
 
 const getShips = () => {
   const apiReq1 = fetch('/starships/')
@@ -26,7 +27,8 @@ export const loadShips = () => {
   return async (dispatch) => {
     dispatch({ type: actionTypes.LOAD_SHIPS_BEGIN })
     try {
-      const ships = await getShips()
+      // const ships = await getShips()
+      const ships = mockData.ships
       const getPlayer1Card = getRandomShip(ships)
       dispatch({ type: actionTypes.LOAD_SHIPS_SUCCESS, payload: ships })
       dispatch({ type: actionTypes.LOAD_PLAYER1_CARD, payload: getPlayer1Card })
@@ -48,15 +50,27 @@ export const getNewPlayerCard = (player) => {
 export const compareCards = (player, selectedItem) => {
   return (dispatch, getState) => {
     if (typeof selectedItem === 'string') {
-      const player1CardItem = getState().players.player1Card[selectedItem]
-      const player2CardItem = getState().players.player2Card[selectedItem]
+      const player1Card = getState().players.player1Card[selectedItem]
+      const player2Card = getState().players.player2Card[selectedItem]
+      const player1CardItem = player1Card === 'unknown' || player1Card === 'n/a' ? 0 : Number(player1Card)
+      const player2CardItem = player2Card === 'unknown' || player2Card === 'n/a' ? 0 : Number(player2Card)
 
-      if (player1CardItem > player2CardItem) {
-        dispatch({ type: actionTypes.GET_WINNER, payload: 1 })
-      } else if (player2CardItem > player1CardItem) {
-        dispatch({ type: actionTypes.GET_WINNER, payload: 2 })
-      } else if (player2CardItem === player1CardItem) {
-        dispatch({ type: actionTypes.GET_WINNER, payload: 'draw' })
+      const player1CardGreater = player1CardItem > player2CardItem
+      const player2CardGreater = player1CardItem < player2CardItem
+      const playerCardsEqual = player1CardItem === player2CardItem
+
+      if (player1CardGreater) {
+        dispatch({ type: actionTypes.SHOW_WINNER, payload: 1 })
+        dispatch({ type: actionTypes.SHOW_LOSER, payload: 2 })
+      }
+
+      if (player2CardGreater) {
+        dispatch({ type: actionTypes.SHOW_WINNER, payload: 2 })
+        dispatch({ type: actionTypes.SHOW_LOSER, payload: 1 })
+      }
+
+      if (playerCardsEqual) {
+        dispatch({ type: actionTypes.SHOW_DRAW, payload: 'draw' })
       }
     }
 
@@ -65,11 +79,13 @@ export const compareCards = (player, selectedItem) => {
       const player2CardItem = getState().players.player2Card.films.length
 
       if (player1CardItem > player2CardItem) {
-        dispatch({ type: actionTypes.GET_WINNER, payload: 1 })
-      } else if (player2CardItem > player1CardItem) {
-        dispatch({ type: actionTypes.GET_WINNER, payload: 2 })
+        dispatch({ type: actionTypes.SHOW_WINNER, payload: 1 })
+        dispatch({ type: actionTypes.SHOW_LOSER, payload: 2 })
+      } else if (player2CardItem < player1CardItem) {
+        dispatch({ type: actionTypes.SHOW_WINNER, payload: 2 })
+        dispatch({ type: actionTypes.SHOW_LOSER, payload: 1 })
       } else if (player2CardItem === player1CardItem) {
-        dispatch({ type: actionTypes.GET_WINNER, payload: 'draw' })
+        dispatch({ type: actionTypes.SHOW_DRAW, payload: 'draw' })
       }
     }
   }

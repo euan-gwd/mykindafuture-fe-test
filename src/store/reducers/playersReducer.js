@@ -3,7 +3,10 @@ import * as actionTypes from '../constants'
 const initialState = {
   player1Card: {},
   player2Card: {},
-  winner: undefined
+  winner: undefined,
+  loser: undefined,
+  player1Score: 0,
+  player2Score: 0
 }
 
 function reducer(state = initialState, action) {
@@ -18,24 +21,43 @@ function reducer(state = initialState, action) {
         ...state,
         player2Card: action.payload
       }
-    case actionTypes.GET_WINNER:
+    case actionTypes.SHOW_WINNER:
       return {
         ...state,
         winner: action.payload
+      }
+    case actionTypes.SHOW_LOSER:
+      return {
+        ...state,
+        loser: action.payload
+      }
+    case actionTypes.SHOW_DRAW:
+      return {
+        ...state,
+        winner: action.payload,
+        loser: undefined,
+        player1Score: state.player1Score + 1,
+        player2Score: state.player2Score + 1
       }
     case actionTypes.PLAYER1_WINS:
       return {
         ...state,
         player1Card: action.payload,
         player2Card: {},
-        winner: undefined
+        winner: undefined,
+        loser: undefined,
+        player1Score: state.player1Score + 1,
+        player2Score: state.player2Score - 1
       }
     case actionTypes.PLAYER2_WINS:
       return {
         ...state,
         player1Card: {},
         player2Card: action.payload,
-        winner: undefined
+        winner: undefined,
+        loser: undefined,
+        player1Score: state.player1Score - 1,
+        player2Score: state.player1Score + 1
       }
     default:
       return state

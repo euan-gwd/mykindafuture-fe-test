@@ -6,7 +6,7 @@ import ListGroup from 'react-bootstrap/ListGroup'
 import Alert from 'react-bootstrap/Alert'
 import './player-card-styles.scss'
 
-const PlayerCard = ({ starship, player, winner }) => {
+const PlayerCard = ({ starship, player, winner, loser }) => {
   const dispatch = useDispatch()
 
   const handleClick = (player, selectedItem) => {
@@ -16,23 +16,30 @@ const PlayerCard = ({ starship, player, winner }) => {
 
   return (
     <Card className="player-card">
-      {player === winner && (
+      {player === winner && winner !== 'draw' && (
         <Card.Header>
           <Alert variant="success">
-            <h1>Winner</h1>
+            <h1>You win!</h1>
+          </Alert>
+        </Card.Header>
+      )}
+      {player === loser && winner !== 'draw' && (
+        <Card.Header>
+          <Alert variant="dark">
+            <h1>You lose!</h1>
           </Alert>
         </Card.Header>
       )}
       {winner === 'draw' && (
         <Card.Header>
           <Alert variant="info">
-            <h1>Draw</h1>
+            <h1>Draw!</h1>
           </Alert>
         </Card.Header>
       )}
       <Card.Header>
         <Card.Title>{starship.name}</Card.Title>
-        <Card.Subtitle className="mb-1 text-muted">{starship.model}</Card.Subtitle>
+        {/* <Card.Subtitle className="mb-1 text-muted">{starship.model}</Card.Subtitle> */}
       </Card.Header>
       <ListGroup variant="flush">
         <ListGroup.Item>

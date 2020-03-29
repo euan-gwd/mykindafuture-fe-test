@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { loadNewGame } from '../store/actions'
 import PlayerCard from './PlayerCard'
 import BlankCard from './BlankCard'
+import ScoreCard from './ScoreCard'
 import CardDeck from 'react-bootstrap/CardDeck'
 import Button from 'react-bootstrap/Button'
 import isEmpty from 'lodash/isEmpty'
@@ -14,6 +15,7 @@ const App = () => {
   const player1Card = useSelector((state) => state.players.player1Card)
   const player2Card = useSelector((state) => state.players.player2Card)
   const winningCard = useSelector((state) => state.players.winner)
+  const losingCard = useSelector((state) => state.players.loser)
   const dispatch = useDispatch()
 
   if (shipsLoading) {
@@ -39,14 +41,17 @@ const App = () => {
   return (
     <div className="app">
       <div className="card-container">
+        <ScoreCard />
+      </div>
+      <div className="card-container">
         <CardDeck>
           {!isEmpty(player1Card) ? (
-            <PlayerCard starship={player1Card} player={1} winner={winningCard} />
+            <PlayerCard starship={player1Card} player={1} winner={winningCard} loser={losingCard} />
           ) : (
             <BlankCard />
           )}
           {!isEmpty(player2Card) ? (
-            <PlayerCard starship={player2Card} player={2} winner={winningCard} />
+            <PlayerCard starship={player2Card} player={2} winner={winningCard} loser={losingCard} />
           ) : (
             <BlankCard />
           )}
